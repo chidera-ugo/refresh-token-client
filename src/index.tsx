@@ -18,7 +18,10 @@ const refreshLink = new TokenRefreshLink({
 	accessTokenField: "accessToken",
 	isTokenValidOrUndefined: () => {
 		const token = getAccessToken()
-		if (!token) return true
+		if (!token) {
+			console.log("JID COOKIED")
+			return true
+		}
 
 		try {
 			const { exp } = jwtDecode(token) as { exp: number }
@@ -33,7 +36,7 @@ const refreshLink = new TokenRefreshLink({
 	},
 	fetchAccessToken: () => {
 		return fetch("http://localhost:4000/refresh-token", {
-			method: "GET",
+			method: "POST",
 			credentials: "include",
 		})
 	},
@@ -79,6 +82,7 @@ const httpLink = new HttpLink({
 const client = new ApolloClient({
 	link: from([refreshLink, errorLink, requestLink, httpLink]),
 	cache: new InMemoryCache(),
+	credentials: "include",
 })
 
 ReactDOM.render(

@@ -8,7 +8,7 @@ export const App: FC = () => {
 
 	useEffect(() => {
 		async function refreshToken() {
-			const res = await axios.get("http://localhost:4000/refresh-token", {
+			const res = await axios.post("http://localhost:4000/refresh-token", {
 				withCredentials: true,
 			})
 
