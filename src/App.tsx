@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useEffect, useState } from "react"
+import { AppRoutes } from "./Routes"
+import axios from "axios"
+import { setAccessToken } from "./accessToken"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const App: FC = () => {
+	const [loading, setLoading] = useState(true)
+
+	useEffect(() => {
+		async function refreshToken() {
+			const res = await axios.get("http://localhost:4000/refresh-token", {
+				withCredentials: true,
+			})
+
+			if (res.data.accessToken) {
+				setAccessToken(res.data.accessToken)
+			}
+			setLoading(false)
+		}
+
+		refreshToken()
+	}, [])
+
+	if (loading) return <div>Loading app</div>
+
+	return <AppRoutes />
 }
-
-export default App;
