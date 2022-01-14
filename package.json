@@ -27,7 +27,8 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"gen": "graphql-codegen --config codegen.yml"
+		"gen": "graphql-codegen --config codegen.yml",
+		"deploy": "git add . && git commit -m "
 	},
 	"eslintConfig": {
 		"extends": [
